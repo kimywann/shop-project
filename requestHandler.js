@@ -43,9 +43,11 @@ function blackRacket(response) {
 function order(response, productId) {
     response.writeHead(200, {'Content-Type' : 'text/html'});
 
-    mariadb.query("INSERT INTO orderlist VALUES (" + productId + ", '" + new Date().toLocaleDateString() + "');", function(err, rows) {
-        console.log(rows);
-    })
+    mariadb.query(
+        'INSERT INTO orderlist VALUES (?, ?)',
+        [productId + ", '" + new Date().toLocaleDateString()],
+        (err, data) => console.log(data),
+    );
 
     response.write('Thank you for your order! <br> you can check the result on the order list page.');
     response.end(); 
